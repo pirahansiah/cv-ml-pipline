@@ -3,4 +3,5 @@ fastapi
 uvicorn
 kubernetes
 seldon_core
+opencv-python-headless
 opencv-python

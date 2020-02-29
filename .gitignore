@@ -10,3 +10,8 @@ a.out
 
 # Add in special Atari 7800-based binaries for good measure
 *.a78
+
+# Add visual code files 
+.vscode
+launch.json
+settings.json
