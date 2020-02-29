@@ -1,0 +1,6 @@
+imutils
+fastapi
+uvicorn
+kubernetes
+seldon_core
+opencv-python
