@@ -1,4 +1,7 @@
 import os
 
 
-print("farshid")
+class Test:
+
+    def p(self):
+        return print('test')
