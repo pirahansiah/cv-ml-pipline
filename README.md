@@ -1,6 +1,7 @@
-# cv-ml-pipline Feb 2020 develop
 
-Computer Vision with Machine Learning Pipline: Docker, AWS, Kubernetes, TensorFlow, Seldon, Kubeflow, ...
+# cv-ml-pipline
+
+# Computer Vision with Machine Learning Pipline: Docker, AWS, Kubernetes, TensorFlow, Seldon, Kubeflow, ...
 
 Command + Shift + P
 Shell Command : Install code in PATH
@@ -13,5 +14,13 @@ docker run
 Docker file: -> Docker image: package, template, planet
 Docker container:
 
-2:
 3: install the requirements.txt
+
+
+# cv-ml-pipline Feb 2020 develop
+
+Computer Vision with Machine Learning Pipline: Docker, AWS, Kubernetes, TensorFlow, Seldon, Kubeflow, ...
+
+Command + Shift + P
+Shell Command : Install code in PATH
+code .
