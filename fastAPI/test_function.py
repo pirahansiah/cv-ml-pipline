@@ -27,7 +27,7 @@ def change_base64_to_numpy_image(b64_str):
     return img
 
 
-img = cv2.imread('lp.jpg')
+img = cv2.imread('a.jpg')
 img_process = change_numpy_image_to_base64(img)
 img_process = color_change(img_process)
 img_out = change_base64_to_numpy_image(img_process)

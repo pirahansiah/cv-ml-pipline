@@ -28,7 +28,7 @@ def change_base64_to_numpy_image(b64_str):
 
 
 # start
-img = cv2.imread('lp.jpg')
+img = cv2.imread('a.jpg')
 img_process = change_numpy_image_to_base64(img)
 # server
 url = "http://localhost:8080/process"
