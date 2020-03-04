@@ -1,1 +1,10 @@
 Using Fast API for image processing
+
+PEP 8
+postMan
+docker-compose build 
+docker-compose up
+http://localhost:8080/process
+
+{"data":"      "}
+
