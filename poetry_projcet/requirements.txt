@@ -1,8 +1,6 @@
 fastapi
 uvicorn
-python-dateutil
 https://storage.googleapis.com/ml-pipeline/release/0.1.20/kfp.tar.gz
-kubernetes
 click
 seldon_core
 spacy
@@ -13,7 +11,6 @@ certifi==2019.9.11
 chardet==3.0.4
 cycler==0.10.0
 decorator==4.4.0
-gast==0.3.2
 google-pasta==0.1.7
 graphviz==0.13
 grpcio==1.23.0
@@ -43,11 +40,10 @@ pytz==2019.2
 PyYAML==5.1.2
 requests==2.22.0
 scikit-learn==0.21.3
-scipy==1.1.0
+scipy
 six==1.12.0
 termcolor==1.1.0
 tqdm==4.36.1
-urllib3==1.25.5
 Werkzeug==0.16.0
 wrapt==1.11.2
 tensorflow==1.15.2

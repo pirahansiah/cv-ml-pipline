@@ -1,3 +1,76 @@
+# Tools
+
+## Pyenv
+
+### Install
+
+```
+brew install pyenv
+```
+
+vim ~/.zshrc  
+eval "\$(pyenv init -)"
+
+### commands
+
+## poetry
+
+### Install
+
+https://blog.jayway.com/2019/12/28/pyenv-poetry-saviours-in-the-python-chaos/
+
+```
+curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
+
+poetry config virtualenvs.in-project true
+
+source $HOME/.poetry/env
+
+poetry init
+poetry new poetry_projcet
+poetry run python test.py
+
+```
+
+### commands
+
+```
+poetry new "name of projces"
+poetry install
+poetry run which python
+poetry add `cat requirements.txt`
+
+```
+
+https://python-poetry.org/
+
+##
+
+### Install
+
+```
+
+```
+
+### commands
+
+```
+
+```
+
+##
+
+### Install
+
+```
+
+```
+
+### commands
+
+```
+
+```
 
 # cv-ml-pipline
 
@@ -15,7 +88,6 @@ Docker file: -> Docker image: package, template, planet
 Docker container:
 
 3: install the requirements.txt
-
 
 # cv-ml-pipline Feb 2020 develop
 
