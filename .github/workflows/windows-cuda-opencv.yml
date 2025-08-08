@@ -1,0 +1,63 @@
+name: windows-cuda-opencv
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    env:
+      OPENCV_VERSION: "4.10.0"
+      # Matches the official OpenCV Windows package layout after extraction
+      OpenCV_DIR: C:\opencv\build\x64\vc16\lib\cmake\opencv4
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # Install CUDA Toolkit (toolchain only; no GPU required to compile)
+      - name: Install CUDA Toolkit
+        uses: Jimver/cuda-toolkit@v0.2.18
+        with:
+          cuda: "12.4.1"
+
+      # Install 7zip to unpack the OpenCV self-extracting archive
+      - name: Install 7zip
+        run: choco install -y 7zip
+
+      # Download and extract prebuilt OpenCV for Windows
+      - name: Download OpenCV
+        shell: powershell
+        run: |
+          $uri = "https://github.com/opencv/opencv/releases/download/${env:OPENCV_VERSION}/opencv-${env:OPENCV_VERSION}-windows.exe"
+          Invoke-WebRequest -Uri $uri -OutFile opencv.exe
+          New-Item -ItemType Directory -Force -Path C:\opencv | Out-Null
+          & "C:\Program Files\7-Zip\7z.exe" x opencv.exe -oC:\opencv -y
+          Get-ChildItem "C:\opencv\build\x64\vc16\lib\cmake\opencv4"
+
+      # Faster Windows builds
+      - name: Setup Ninja
+        uses: seanmiddleditch/gha-setup-ninja@v4
+
+      # IMPORTANT: point -S to your nested project folder
+      - name: Configure (CMake)
+        shell: bash
+        run: |
+          cmake -S cuda \
+                -B build -G "Ninja" \
+                -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        shell: bash
+        run: cmake --build build --config Release -v
+
+      - name: Show nvcc
+        shell: bash
+        run: nvcc --version
+
+      - name: Upload .exe
+        uses: actions/upload-artifact@v4
+        with:
+          name: cuda-opencv-windows-exe
+          path: build/**/*.exe
