@@ -2,7 +2,7 @@
 #include <iostream>
 #include <cuda_runtime.h>
 #include <cuda.h>
-#include <opencv2/core.hpp>
+//#include <opencv2/core.hpp>
 
 static std::string decodeCudaVersion(int v) {
     int major = v / 1000;
@@ -23,7 +23,7 @@ int main() {
               << " version=" << runtimeVersion
               << " (" << decodeCudaVersion(runtimeVersion) << ")\n";
 
-    std::cout << "OpenCV version: " << CV_VERSION
-              << " (cv::getVersionString=" << cv::getVersionString() << ")\n";
+    // std::cout << "OpenCV version: " << CV_VERSION
+    //           << " (cv::getVersionString=" << cv::getVersionString() << ")\n";
     return 0;
 }

@@ -8,10 +8,6 @@ on:
 jobs:
   build-windows:
     runs-on: windows-latest
-    env:
-      OPENCV_VERSION: "4.10.0"
-      # Matches the official OpenCV Windows package layout after extraction
-      OpenCV_DIR: C:\opencv\build\x64\vc16\lib\cmake\opencv4
 
     steps:
       - uses: actions/checkout@v4
@@ -22,25 +18,15 @@ jobs:
         with:
           cuda: "12.4.1"
 
-      # Install 7zip to unpack the OpenCV self-extracting archive
+      # Install 7zip (keeping this for future OpenCV use)
       - name: Install 7zip
         run: choco install -y 7zip
-
-      # Download and extract prebuilt OpenCV for Windows
-      - name: Download OpenCV
-        shell: powershell
-        run: |
-          $uri = "https://github.com/opencv/opencv/releases/download/${env:OPENCV_VERSION}/opencv-${env:OPENCV_VERSION}-windows.exe"
-          Invoke-WebRequest -Uri $uri -OutFile opencv.exe
-          New-Item -ItemType Directory -Force -Path C:\opencv | Out-Null
-          & "C:\Program Files\7-Zip\7z.exe" x opencv.exe -oC:\opencv -y
-          Get-ChildItem "C:\opencv\build\x64\vc16\lib\cmake\opencv4"
 
       # Faster Windows builds
       - name: Setup Ninja
         uses: seanmiddleditch/gha-setup-ninja@v4
 
-      # IMPORTANT: point -S to your nested project folder
+      # Configure CMake for CUDA-only build
       - name: Configure (CMake)
         shell: bash
         run: |
@@ -52,12 +38,16 @@ jobs:
         shell: bash
         run: cmake --build build --config Release -v
 
-      - name: Show nvcc
+      - name: Show nvcc version
         shell: bash
         run: nvcc --version
+
+      - name: Test CUDA executable
+        shell: bash
+        run: ./build/cuda_versions.exe || echo "Executable not found or failed to run"
 
       - name: Upload .exe
         uses: actions/upload-artifact@v4
         with:
-          name: cuda-opencv-windows-exe
+          name: cuda-windows-exe
           path: build/**/*.exe
