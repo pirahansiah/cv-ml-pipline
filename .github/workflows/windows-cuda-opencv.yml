@@ -18,6 +18,15 @@ jobs:
         with:
           cuda: "12.4.1"
 
+      # Setup Visual Studio environment (this makes cl.exe available)
+      - name: Setup Visual Studio Environment
+        uses: microsoft/setup-msbuild@v1.3
+
+      - name: Setup Visual Studio Dev Environment
+        uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: x64
+
       # Install 7zip (keeping this for future OpenCV use)
       - name: Install 7zip
         run: choco install -y 7zip
