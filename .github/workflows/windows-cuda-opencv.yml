@@ -7,56 +7,45 @@ on:
 
 jobs:
   build-windows:
-    runs-on: windows-latest
+    runs-on: windows-2022  # Use the newer runner
 
     steps:
       - uses: actions/checkout@v4
 
-      # Install CUDA Toolkit (toolchain only; no GPU required to compile)
+      # Install CUDA Toolkit - use cached version for speed
+      - name: Cache CUDA Toolkit
+        id: cuda-cache
+        uses: actions/cache@v4
+        with:
+          path: C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.4
+          key: cuda-12.4.1-windows
+
       - name: Install CUDA Toolkit
+        if: steps.cuda-cache.outputs.cache-hit != 'true'
         uses: Jimver/cuda-toolkit@v0.2.18
         with:
           cuda: "12.4.1"
+          use-github-cache: true
 
       # Setup Visual Studio environment (this makes cl.exe available)
-      - name: Setup Visual Studio Environment
-        uses: microsoft/setup-msbuild@v1.3
-
       - name: Setup Visual Studio Dev Environment
         uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: x64
 
-      # Install 7zip (keeping this for future OpenCV use)
-      - name: Install 7zip
-        run: choco install -y 7zip
-
-      # Faster Windows builds
-      - name: Setup Ninja
-        uses: seanmiddleditch/gha-setup-ninja@v4
-
-      # Configure CMake for CUDA-only build
-      - name: Configure (CMake)
-        shell: bash
+      # Configure and build in one step for speed
+      - name: Configure and Build
+        shell: cmd
         run: |
-          cmake -S cuda \
-                -B build -G "Ninja" \
-                -DCMAKE_BUILD_TYPE=Release
-
-      - name: Build
-        shell: bash
-        run: cmake --build build --config Release -v
-
-      - name: Show nvcc version
-        shell: bash
-        run: nvcc --version
+          cmake -S cuda -B build -G "Visual Studio 17 2022" -A x64 -DCMAKE_BUILD_TYPE=Release
+          cmake --build build --config Release --parallel
 
       - name: Test CUDA executable
-        shell: bash
-        run: ./build/cuda_versions.exe || echo "Executable not found or failed to run"
+        shell: cmd
+        run: build\Release\cuda_versions.exe
 
       - name: Upload .exe
         uses: actions/upload-artifact@v4
         with:
           name: cuda-windows-exe
-          path: build/**/*.exe
+          path: build/Release/*.exe

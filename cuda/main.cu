@@ -1,13 +1,29 @@
-
 #include <iostream>
+#include <string>
 #include <cuda_runtime.h>
 #include <cuda.h>
-//#include <opencv2/core.hpp>
+
+// Simple integer to string conversion that works with CUDA
+std::string intToString(int value) {
+    if (value == 0) return "0";
+    
+    std::string result;
+    bool negative = value < 0;
+    if (negative) value = -value;
+    
+    while (value > 0) {
+        result = char('0' + value % 10) + result;
+        value /= 10;
+    }
+    
+    if (negative) result = "-" + result;
+    return result;
+}
 
 static std::string decodeCudaVersion(int v) {
     int major = v / 1000;
     int minor = (v % 1000) / 10;
-    return std::to_string(major) + "." + std::to_string(minor);
+    return intToString(major) + "." + intToString(minor);
 }
 
 int main() {
@@ -23,7 +39,5 @@ int main() {
               << " version=" << runtimeVersion
               << " (" << decodeCudaVersion(runtimeVersion) << ")\n";
 
-    // std::cout << "OpenCV version: " << CV_VERSION
-    //           << " (cv::getVersionString=" << cv::getVersionString() << ")\n";
     return 0;
 }

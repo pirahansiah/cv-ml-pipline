@@ -13,5 +13,5 @@ find_package(CUDAToolkit REQUIRED)
 add_executable(cuda_versions main.cu)
 target_link_libraries(cuda_versions PRIVATE CUDA::cudart)
 
-# Optional: compile for several GPU archs (doesn't require a GPU to build)
-set_target_properties(cuda_versions PROPERTIES CUDA_ARCHITECTURES "75;86;89;90")
+# Compile for fewer architectures to speed up build (focus on common ones)
+set_target_properties(cuda_versions PROPERTIES CUDA_ARCHITECTURES "75;86")
