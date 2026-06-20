@@ -1,12 +1,7 @@
-version: "3.7"
-
 services:
   web:
     build: .
-    container_name: "farshid"
-
+    container_name: cv-ml-api
     ports:
-      - "8080:80"
-
-volumes:
-  postgresql_data:
+      - "8080:8000"
+    restart: unless-stopped

@@ -1,18 +1,18 @@
-name: windows-cuda-opencv
+name: CUDA Build
+
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
   workflow_dispatch:
 
 jobs:
   build-windows:
-    runs-on: windows-2022  # Use the newer runner
+    runs-on: windows-2022
 
     steps:
       - uses: actions/checkout@v4
 
-      # Install CUDA Toolkit - use cached version for speed
       - name: Cache CUDA Toolkit
         id: cuda-cache
         uses: actions/cache@v4
@@ -27,13 +27,11 @@ jobs:
           cuda: "12.4.1"
           use-github-cache: true
 
-      # Setup Visual Studio environment (this makes cl.exe available)
       - name: Setup Visual Studio Dev Environment
         uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: x64
 
-      # Configure and build in one step for speed
       - name: Configure and Build
         shell: cmd
         run: |

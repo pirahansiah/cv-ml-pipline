@@ -1,42 +1,40 @@
-import numpy as np
+"""Basic OpenCV thresholding demo — reads an image, applies Otsu's method, and displays results."""
+
+from __future__ import annotations
+
 import cv2
-#   X   Y
+import numpy as np
+from pathlib import Path
 
-# 0/0---X--->
-#  |
-#  |
-#  Y
-#  |
-#  |
-#  v
-#
 
-#   Col   Row
+def load_image(path: Path) -> np.ndarray:
+    img = cv2.imread(str(path), cv2.IMREAD_COLOR)
+    if img is None:
+        raise FileNotFoundError(f"Cannot read image: {path}")
+    return img
 
-# 0/0---column--->
-#  |
-#  |
-# row
-#  |
-#  |
-#  v
 
-# start
-img = cv2.imread('a.png')
-# process
-rows, cols = img.shape[:2]
-frame = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)  # 0 .. 255
-# for i in range(rows):
-#     for j in range(cols):
-#         if frame.item(i, j) > 130:
-#             frame.itemset((i, j), 255)
-#         else:
-#             frame.itemset((i, j), 0)
-# # output
-img_out = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
-ret, img_out = cv2.threshold(img_out, 127, 255, cv2.THRESH_OTSU)
+def to_grayscale(img: np.ndarray) -> np.ndarray:
+    return cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-img_out = frame
-cv2.imshow('original ', img)
-cv2.imshow('output ', img_out)
-cv2.waitKey()
+
+def apply_otsu_threshold(gray: np.ndarray) -> np.ndarray:
+    _, binary = cv2.threshold(gray, 127, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    return binary
+
+
+def main() -> None:
+    img_path = Path(__file__).parent / "a.png"
+    img = load_image(img_path)
+
+    gray = to_grayscale(img)
+    binary = apply_otsu_threshold(gray)
+
+    cv2.imshow("original", img)
+    cv2.imshow("otsu", binary)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+
+if __name__ == "__main__":
+    main()

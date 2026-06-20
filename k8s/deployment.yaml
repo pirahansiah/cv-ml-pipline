@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cv-ml-api
+  labels:
+    app: cv-ml-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cv-ml-api
+  template:
+    metadata:
+      labels:
+        app: cv-ml-api
+    spec:
+      containers:
+        - name: cv-ml-api
+          image: ghcr.io/pirahansiah/cv-ml-pipeline:latest
+          ports:
+            - containerPort: 8000
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "512Mi"
+            limits:
+              cpu: "2000m"
+              memory: "2Gi"
+          readinessProbe:
+            httpGet:
+              path: /docs
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /docs
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 20

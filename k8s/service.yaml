@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cv-ml-api
+  labels:
+    app: cv-ml-api
+spec:
+  type: LoadBalancer
+  selector:
+    app: cv-ml-api
+  ports:
+    - port: 80
+      targetPort: 8000
+      protocol: TCP
+      name: http

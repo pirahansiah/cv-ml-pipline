@@ -1,17 +1,49 @@
-# Atari 2600 (Stella) support for multiple assemblers
-# - DASM
-# - CC65
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+*.egg
+dist/
+build/
+.eggs/
+*.whl
+*.so
 
-# Assembled binaries and object directories
+# Virtual environments
+.venv/
+venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.code-workspace
+launch.json
+settings.json
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+._*
+Thumbs.db
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# CUDA build artifacts
 obj/
 a.out
 *.bin
 *.a26
-
-# Add in special Atari 7800-based binaries for good measure
 *.a78
 
-# Add visual code files 
-.vscode
-launch.json
-settings.json
+# Secrets
+.env
+.env.*
+credentials.json

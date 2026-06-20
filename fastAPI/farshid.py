@@ -1,28 +1,26 @@
-import cv2
+"""Image conversion utilities for FastAPI CV service."""
+
+from __future__ import annotations
+
 import base64
+
+import cv2
 import numpy as np
-from PIL import Image
-from io import StringIO
-from fastapi import FastAPI
-from pydantic import BaseModel
 
 
-def change_numpy_image_to_base64(img):
-    _, buffer = cv2.imencode('.jpg', img)
-    img_b64_bytes = base64.b64encode(buffer)
-    img_b64_str = img_b64_bytes.decode()
-    return img_b64_str
+def change_numpy_image_to_base64(img: np.ndarray) -> str:
+    _, buffer = cv2.imencode(".jpg", img)
+    return base64.b64encode(buffer).decode()
 
 
-def change_base64_to_numpy_image(b64_str):
+def change_base64_to_numpy_image(b64_str: str) -> np.ndarray:
     b64_bytes = base64.b64decode(b64_str)
     np_data = np.frombuffer(b64_bytes, np.uint8)
-    img = cv2.imdecode(np_data, cv2.IMREAD_UNCHANGED)
-    return img
+    return cv2.imdecode(np_data, cv2.IMREAD_UNCHANGED)
 
 
-def color_change(based_64_input):
-    img_org = change_base64_to_numpy_image(based_64_input)
-    img_change = cv2.cvtColor(img_org, cv2.COLOR_BGR2HSV)
-    img_out_str = change_numpy_image_to_base64(img_change)
-    return img_out_str
+def color_change(b64_input: str) -> str:
+    """Convert a base64-encoded image from BGR to HSV color space and return as base64."""
+    img = change_base64_to_numpy_image(b64_input)
+    hsv = cv2.cvtColor(img, cv2.COLOR_BGR2HSV)
+    return change_numpy_image_to_base64(hsv)

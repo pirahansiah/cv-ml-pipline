@@ -1,7 +1,4 @@
-imutils
-fastapi
-uvicorn
-kubernetes
-seldon_core
-opencv-python-headless
-opencv-python
+seldon-core>=1.18,<2.0
+opencv-python-headless>=4.10,<5.0
+numpy>=2.0,<3.0
+imutils>=0.5.4
