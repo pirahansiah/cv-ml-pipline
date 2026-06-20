@@ -1,184 +1,187 @@
-# Computer Vision
+# Computer Vision ML Pipeline
 
-Object Tracking in IoT
+![Python 3.10+](https://img.shields.io/badge/Python-3.10+-3776AB?style=flat&logo=python&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-24+-2496ED?style=flat&logo=docker&logoColor=white)
+![PyTorch](https://img.shields.io/badge/PyTorch-2.x-EE4C2C?style=flat&logo=pytorch&logoColor=white)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
+End-to-end Computer Vision and Machine Learning Pipeline — from image processing and object tracking to model deployment with Docker, Kubernetes, and cloud services.
 
-# Image Processing
+## Overview
 
-Thresholding:
-Binarization or thresholding is one problem that have to solve in pattern recognition methods and applications. Moreover, it has a very important influence on the sequent steps in computer vision applications such as, Optical Character Recognition (OCR), image segmentation, and tracking objects.
+A comprehensive pipeline for CV/ML applications covering image preprocessing, model training, inference, and deployment. Designed for IoT and edge computing scenarios with real-time object tracking.
 
-Binarization or thresholding is one problem that must be solved in pattern recognition and it has a very important influence on the sequent steps in imaging applications. Thresholding is used to separate objects from the background, and diminish the amount of data alter the computational speed. Recently, interest in multilevel thresholding has been altered. However, when the levels are altered, the computation time alters so single threshold methods are accelerated than multilevel methods. Moreover, for every new application, new methods are is acquired.
+## What's New (2025-2026)
 
-Thresholding is one of the critical steps in pattern recognition and has a significant effect on the upcoming steps of image application, the important objectives of thresholding are as follows, separating objects from background, decreasing the capacity of data consequently increases speed. Handwritten recognition is one of the important issues, which have various applications in mobile devices.
+- **PyTorch 2.x** with `torch.compile()` for optimized inference
+- **ONNX Runtime** for cross-platform edge deployment
+- **TensorRT** integration for NVIDIA GPU acceleration
+- **Ultralytics YOLO11** for real-time object detection
+- **SAM-2** for video segmentation
+- **OpenVINO** for Intel edge deployment
+- **FastAPI** replacing Flask for async model serving
+- **Kubeflow Pipelines** for ML orchestration
+- **MLflow** for experiment tracking
+- **DVC** for data versioning
+- **Docker Compose** multi-service orchestration
 
-## Reference:
-
-Using An Ant Colony Optimization Algorithm For Image Edge Detection As A Threshold Segmentation For OCR System Journal of Theoretical & Applied Information Technology, 95(21)
-http://www.jatit.org/volumes/Vol95No21/1Vol95No21.pdf
-
-GSFT-PSNR: Global Single Fuzzy Threshold Based on PSNR for OCR Systems, International Journal of Computer Science and Network Solutions 4(6)
-https://www.ijcsns.com/June.2016-Volume.4-No.6/Article01.pdf
-
-Adaptive Image Thresholding based On the Peak Signal-To-Noise Ratio, Research Journal of Applied Sciences, Engineering and Technology 8(9).
-http://www.academia.edu/download/44161592/Adaptive_Image_Thresholding_Based_on_the20160328-31366-1wyb1jc.pdf
-
-Peak Signal-To-Noise Ratio Based On Threshold Method for Image Segmentation, Journal of Theoretical & Applied Information Technology, 57(2)
-http://www.jatit.org/volumes/Vol57No2/4Vol57No2.pdf
-
-Comparison Single Thresholding Method for Image Segmentation on Handwritten Images, International Conference on Pattern Analysis and Intelligent Robotics
-https://doi.org/10.1109/ICPAIR.2011.5976918
-
-License Plate Recognition with Multi-Threshold Based on Entropy, 3rd International Conference on Electrical Engineering and Informatics (ICEEI 2011)
-https://doi.org/10.1109/ICEEI.2011.6021627
-
-Adaptive image segmentation based on Peak Signal to Noise Ratio for a license plate Recognition system, International Conference on Computer Applications and Industrial Electronics (ICCAIE 2010)
-https://doi.org/10.1109/ICCAIE.2010.5735125
-http://www.academia.edu/download/44161592/Adaptive_Image_Thresholding_Based_on_the20160328-31366-1wyb1jc.pdf
-
-# IDE & Terminal on Mac
-
-- Visual code
-  - Bracket Pair Colorizer 2
-  - Prettier - Code formatter
-  - indent-rainbow
-  - GitHub
-  - Shell
-
-bpython https://bpython-interpreter.org/downloads.html
-pip install bpython
-
-Terminal
-_ iTerm2
-_ https://iterm2.com/downloads.html
-_ themes  
- _ Oh My Zsh
-_ sh -c "\$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-_ Prezto,
-_ git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
-_ source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-_ zstyle ':prezto:load' pmodule-dirs \$HOME/.zprezto-contrib
-_ pip install --user powerline-status
-_ Spaceship-prompt
-_ git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt"
-                * ln -s "$ZSH\*CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "\$ZSH_CUSTOM/themes/spaceship.zsh-theme"
-
-- prezto
-  _ nano ~/.zpreztorc
-  _ Follow prezto-contrib#usage to clone prezto-contrib to the proper location. \* zstyle ':prezto:load' pmodule-dirs \$HOME/.zprezto-contrib
-
-* cd \$ZPREZTODIR
-  _ git clone --recurse-submodules https://github.com/belak/prezto-contrib contrib
-  _ Enable the contrib-prompt module (before the prompt module).
-  _ Set zstyle ':prezto:module:prompt' theme 'spaceship' in your .zpreztorc.
-  _ Plugins
-  _ Pipeline
-  Brew install pipeline
-  Fzf: A command-line fuzzy finder
-  _ https://github.com/junegunn/fzf
-  _ brew install fzf
-  _ Simplified and community-driven man pages
-  _ brew install tldr
-  _ rg — recursively search current directory for lines matching a pattern
-  _ brew install ripgrep
-  _ https://github.com/BurntSushi/ripgrep
-  \_ Bat \* brew install bat
-
-# Tools
-
-## Pyenv
-
-### Install
+## Architecture
 
 ```
-brew install pyenv
+┌─────────────┐    ┌──────────────┐    ┌──────────────┐
+│  Data       │───▶│  Preprocess  │───▶│  Model       │
+│  Ingestion  │    │  & Augment   │    │  Training    │
+└─────────────┘    └──────────────┘    └──────┬───────┘
+                                              │
+┌─────────────┐    ┌──────────────┐    ┌──────▼───────┐
+│  Edge       │◀───│  Model       │◀───│  MLflow      │
+│  Deploy     │    │  Serving     │    │  Registry    │
+└─────────────┘    └──────────────┘    └──────────────┘
 ```
 
-vim ~/.zshrc  
-eval "\$(pyenv init -)"
+## Image Processing
 
-### commands
+### Thresholding Methods
 
-## poetry
+| Method | Use Case | Complexity |
+|--------|----------|------------|
+| Otsu's Binarization | Bimodal histograms | O(N) |
+| Adaptive (Gaussian) | Varying illumination | O(N·k) |
+| Multi-level | Complex scenes | O(N·L) |
+| Fuzzy Thresholding | Noisy images | O(N·L²) |
+| Entropy-based | License plates | O(N·L) |
 
-### Install
+### Modern Approaches (2025-2026)
 
-https://blog.jayway.com/2019/12/28/pyenv-poetry-saviours-in-the-python-chaos/
+- **Learned Thresholding**: U-Net/DeepLabV3+ for semantic segmentation
+- **SAM-2**: Zero-shot segmentation with text prompts
+- **CLIP-guided**: Text-image alignment for adaptive processing
+- **Super-resolution**: Real-ESRGAN for upscaling before processing
 
-```
-curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
+## Object Tracking Pipeline
 
-poetry config virtualenvs.in-project true
+```python
+# Modern tracking with YOLO11 + ByteTrack
+from ultralytics import YOLO
+from byte_tracker import ByteTrack
 
-source $HOME/.poetry/env
+model = YOLO("yolo11x.pt")
+tracker = ByteTrack(track_thresh=0.5, match_thresh=0.8)
 
-poetry init
-poetry new poetry_projcet
-poetry run python test.py
-
-```
-
-### commands
-
-```
-poetry new "name of projces"
-poetry install
-poetry run which python
-poetry add `cat requirements.txt`
-
+results = model.track(source="video.mp4", tracker=True)
 ```
 
-https://python-poetry.org/
+## Tech Stack
 
-##
+| Category | Tools |
+|----------|-------|
+| **ML/DL** | PyTorch 2.x, Ultralytics, ONNX Runtime, TensorRT |
+| **CV** | OpenCV 4.9+, scikit-image, Pillow |
+| **Serving** | FastAPI, TorchServe, Triton Inference Server |
+| **Orchestration** | Kubeflow, Airflow, Prefect |
+| **Tracking** | MLflow, W&B, DVC |
+| **Deployment** | Docker, Kubernetes, Helm |
+| **Edge** | OpenVINO, TensorRT, CoreML, TFLite |
 
-### Install
+## Image Processing Modules
 
+### Thresholding
+
+```python
+import cv2
+import numpy as np
+
+# Otsu's thresholding
+gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+_, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+
+# Adaptive thresholding
+adaptive = cv2.adaptiveThreshold(gray, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+                                  cv2.THRESH_BINARY, 11, 2)
 ```
 
+### Modern Segmentation
+
+```python
+# SAM-2 for video segmentation
+from segment_anything_2 import SAM2
+
+sam = SAM2("sam2_hiera_large.pt")
+masks = sam.segment(frame, points=points, labels=labels)
 ```
 
-### commands
+## Deployment
 
+### Docker
+
+```dockerfile
+FROM pytorch/pytorch:2.2.0-cuda12.1-cudnn8-runtime
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+COPY . .
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 ```
 
+### Kubernetes
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cv-inference
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: cv-inference
+  template:
+    spec:
+      containers:
+      - name: cv-inference
+        image: ghcr.io/cv-ml-pipeline:latest
+        resources:
+          limits:
+            nvidia.com/gpu: 1
 ```
 
-##
+### Edge Deployment
 
-### Install
+```bash
+# Export to ONNX
+python export_onnx.py --model yolov9.pt --output yolov9.onnx
 
+# Convert to TensorRT
+trtexec --onnx=yolov9.onnx --saveEngine=yolov9.engine --fp16
+
+# Deploy to edge device
+python edge_inference.py --engine yolov9.engine --source camera.mp4
 ```
 
+## Research References
+
+- **U-Net** (2015): Convolutional Networks for Biomedical Image Segmentation — [Ronneberger et al.](https://arxiv.org/abs/1505.04597)
+- **SAM-2** (2024): Segment Anything Model 2 for Video — [Meta AI](https://github.com/facebookresearch/segment-anything-2)
+- **YOLO11** (2025): Real-time Object Detection — [Ultralytics](https://github.com/ultralytics/ultralytics)
+- **ByteTrack** (2022): Multi-Object Tracking by Associating Every Detection — [Zhang et al.](https://arxiv.org/abs/2110.02033)
+- **CLIP** (2021): Learning Transferable Visual Models — [OpenAI](https://arxiv.org/abs/2103.00020)
+- **ONNX Runtime** (2024): Cross-platform ML inference — [Microsoft](https://onnxruntime.ai)
+- **TensorRT** (2024): NVIDIA GPU inference optimization — [NVIDIA](https://developer.nvidia.com/tensorrt)
+
+## Quick Start
+
+```bash
+git clone https://github.com/pirahansiah/cv-ml-pipline.git
+cd cv-ml-pipline
+docker-compose up --build
 ```
 
-### commands
+## Contributing
 
-```
+1. Fork the repository
+2. Create a feature branch
+3. Submit a pull request
 
-```
+## License
 
-# cv-ml-pipline
-
-# Computer Vision with Machine Learning Pipline: Docker, AWS, Kubernetes, TensorFlow, Seldon, Kubeflow, ...
-
-Command + Shift + P
-Shell Command : Install code in PATH
-code .
-
-Config GitHub: https://github.com 1. ssh-keygen -t rsa -b 4096 -C "your_email@example.com" 2. pbcopy < ~/.ssh/id_rsa.pub 3. GitHub->Personal Setting->SSH and GPG keys->Add new : past 4. ssh-add ~/.ssh/id_rsa_work_user1 5. ~/.ssh/config
-
-1: install docker : https://docs.docker.com/docker-for-mac/install/
-docker run
-Docker file: -> Docker image: package, template, planet
-Docker container:
-
-3: install the requirements.txt
-
-# cv-ml-pipline Feb 2020 develop
-
-Computer Vision with Machine Learning Pipline: Docker, AWS, Kubernetes, TensorFlow, Seldon, Kubeflow, ...
-
-Command + Shift + P
-Shell Command : Install code in PATH
-code .
+MIT License
