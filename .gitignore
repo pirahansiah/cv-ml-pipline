@@ -47,3 +47,7 @@ a.out
 .env
 .env.*
 credentials.json
+
+# macOS and career assets
+CAREER_IMPACT.md
+._pack-*.idx
